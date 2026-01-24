@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Біржа перевезень</title>
+
+  <!-- ПІДКЛЮЧАЄМО CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h1>🚚 Біржа перевезень</h1>
+
+  <div class="box">
+    <h2>Створити замовлення</h2>
+    <input id="from" placeholder="Місто загрузки">
+    <input id="to" placeholder="Місто вигрузки">
+    <textarea id="desc" placeholder="Опис вантажу"></textarea>
+    <input id="contact" placeholder="Телефон або Telegram">
+    <button onclick="createOrder()">Опублікувати</button>
+  </div>
+
+  <div class="box">
+    <h2>Доступні замовлення</h2>
+    <div id="orders"></div>
+  </div>
+
+  <!-- ПІДКЛЮЧАЄМО JS (ВАЖЛИВО: В КІНЦІ BODY) -->
+  <script src="script.js"></script>
+</body>
+</html>
