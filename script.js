@@ -1,6 +1,4 @@
-let orders = [];
-
-// 🔐 Supabase
+// ===== SUPABASE =====
 const SUPABASE_URL = "https://xddxlddpvjphoirwnkrg.supabase.co";
 const SUPABASE_KEY = "sb_publishable_hubeFSd5lasx_XEqe9-xhA_Sj2WI_Ie";
 
@@ -9,10 +7,18 @@ const supabase = window.supabase.createClient(
   SUPABASE_KEY
 );
 
-// 🔑 ЛОГІН / РЕЄСТРАЦІЯ
+// ===== DATA =====
+let orders = [];
+
+// ===== AUTH =====
 async function login() {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
+
+  if (!email || !password) {
+    alert("Введи email і пароль");
+    return;
+  }
 
   const { error } = await supabase.auth.signInWithPassword({
     email,
@@ -20,14 +26,22 @@ async function login() {
   });
 
   if (error) {
-    await supabase.auth.signUp({ email, password });
-    alert("Зареєстровано і увійшли");
+    const { error: signUpError } = await supabase.auth.signUp({
+      email,
+      password
+    });
+
+    if (signUpError) {
+      alert(signUpError.message);
+    } else {
+      alert("Користувача створено");
+    }
   } else {
-    alert("Вхід виконано");
+    alert("Успішний вхід");
   }
 }
 
-// 📦 ЗАМОВЛЕННЯ (ПОКИ ЛОКАЛЬНО)
+// ===== ORDERS =====
 function createOrder() {
   const order = {
     from: document.getElementById("from").value,
@@ -45,7 +59,6 @@ function createOrder() {
 function takeOrder(index) {
   orders[index].status = "taken";
   renderOrders();
-  alert("Ви взяли замовлення");
 }
 
 function renderOrders() {
@@ -56,42 +69,11 @@ function renderOrders() {
     if (o.status === "free") {
       container.innerHTML += `
         <div class="order">
-          <strong>${o.from} → ${o.to}</strong><br>
+          <b>${o.from} → ${o.to}</b><br>
           ${o.desc}<br>
           <button onclick="takeOrder(${i})">Взяти</button>
         </div>
       `;
     }
   });
-}
-
-async function login() {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-
-  if (!email || !password) {
-    alert("Введи email і пароль");
-    return;
-  }
-
-  const { error } = await supabase.auth.signInWithPassword({
-    email,
-    password
-  });
-
-  if (error) {
-    // якщо користувача нема — реєструємо
-    const { error: signUpError } = await supabase.auth.signUp({
-      email,
-      password
-    });
-
-    if (signUpError) {
-      alert(signUpError.message);
-    } else {
-      alert("Користувача створено, ти увійшов");
-    }
-  } else {
-    alert("Успішний вхід");
-  }
 }
