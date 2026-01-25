@@ -64,3 +64,34 @@ function renderOrders() {
     }
   });
 }
+
+async function login() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  if (!email || !password) {
+    alert("Введи email і пароль");
+    return;
+  }
+
+  const { error } = await supabase.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if (error) {
+    // якщо користувача нема — реєструємо
+    const { error: signUpError } = await supabase.auth.signUp({
+      email,
+      password
+    });
+
+    if (signUpError) {
+      alert(signUpError.message);
+    } else {
+      alert("Користувача створено, ти увійшов");
+    }
+  } else {
+    alert("Успішний вхід");
+  }
+}
