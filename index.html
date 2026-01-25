@@ -4,12 +4,19 @@
   <meta charset="UTF-8">
   <title>Біржа перевезень</title>
 
-  <!-- ПІДКЛЮЧАЄМО CSS -->
+  <!-- CSS -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <h1>🚚 Біржа перевезень</h1>
+
+  <div class="box">
+    <h2>Вхід / Реєстрація</h2>
+    <input id="email" placeholder="Email">
+    <input id="password" type="password" placeholder="Пароль">
+    <button onclick="login()">Увійти / Зареєструватись</button>
+  </div>
 
   <div class="box">
     <h2>Створити замовлення</h2>
@@ -25,7 +32,10 @@
     <div id="orders"></div>
   </div>
 
-  <!-- ПІДКЛЮЧАЄМО JS (ВАЖЛИВО: В КІНЦІ BODY) -->
+  <!-- 1️⃣ Спочатку Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- 2️⃣ Потім твій JS -->
   <script src="script.js"></script>
 </body>
 </html>
