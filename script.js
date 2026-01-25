@@ -4,7 +4,7 @@ let orders = [];
 const SUPABASE_URL = "https://xddxlddpvjphoirwnkrg.supabase.co";
 const SUPABASE_KEY = "sb_publishable_hubeFSd5lasx_XEqe9-xhA_Sj2WI_Ie";
 
-const supabase = supabase.createClient(
+const supabase = window.supabase.createClient(
   SUPABASE_URL,
   SUPABASE_KEY
 );
