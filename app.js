@@ -42,38 +42,79 @@ async function login() {
 }
 
 // ===== ORDERS =====
-function createOrder() {
+async function createOrder() {
   const order = {
-    from: document.getElementById("from").value,
-    to: document.getElementById("to").value,
+    from_city: document.getElementById("from").value,
+    to_city: document.getElementById("to").value,
     desc: document.getElementById("desc").value,
     contact: document.getElementById("contact").value,
     status: "free"
   };
 
-  orders.push(order);
-  renderOrders();
-  alert("Замовлення створено");
+  // ✅ перевірка ПЕРЕД збереженням
+  if (!order.from_city || !order.to_city || !order.contact) {
+    alert("Заповни обовʼязкові поля");
+    return;
+  }
+
+  const { error } = await supabaseClient
+    .from("orders")
+    .insert([order]);
+
+  if (error) {
+    alert("Помилка: " + error.message);
+  } else {
+    alert("Замовлення збережено");
+    loadOrders();
+
+    // (опціонально) очистити поля
+    document.getElementById("from").value = "";
+    document.getElementById("to").value = "";
+    document.getElementById("desc").value = "";
+    document.getElementById("contact").value = "";
+  }
 }
 
-function takeOrder(index) {
-  orders[index].status = "taken";
-  renderOrders();
+async function takeOrder(id) {
+  const { error } = await supabaseClient
+    .from("orders")
+    .update({ status: "taken" })
+    .eq("id", id);
+
+  if (error) {
+    alert(error.message);
+  } else {
+    alert("Замовлення взято");
+    loadOrders();
+  }
 }
 
-function renderOrders() {
+async function loadOrders() {
+  const { data, error } = await supabaseClient
+    .from("orders")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    alert(error.message);
+    return;
+  }
+
   const container = document.getElementById("orders");
   container.innerHTML = "";
 
-  orders.forEach((o, i) => {
-    if (o.status === "free") {
+  data.forEach(order => {
+    if (order.status === "free") {
       container.innerHTML += `
         <div class="order">
-          <b>${o.from} → ${o.to}</b><br>
-          ${o.desc}<br>
-          <button onclick="takeOrder(${i})">Взяти</button>
+          <b>${order.from_city} → ${order.to_city}</b><br>
+          ${order.desc}<br>
+          <small>${order.contact}</small><br>
+          <button onclick="takeOrder(${order.id})">Взяти</button>
         </div>
       `;
     }
   });
 }
+
+loadOrders();
