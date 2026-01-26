@@ -32,3 +32,7 @@ button {
   border-bottom: 1px solid #ddd;
   padding: 10px 0;
 }
+
+input:required, textarea:required {
+  border-left: 4px solid red;
+}
