@@ -52,7 +52,7 @@ async function createOrder() {
   };
 
   // ✅ перевірка ПЕРЕД збереженням
-  if (!order.from_city || !order.to_city || !order.contact) {
+  if (!order.from_city || !order.desc || !order.contact) {
     alert("Заповни обовʼязкові поля");
     return;
   }
