@@ -10,40 +10,37 @@ const supabaseClient = window.supabase.createClient(
 // ===== DATA =====
 let orders = [];
 
-// ===== AUTH =====
-async function checkAuth() {
+async function checkAlreadyLogged() {
   const { data } = await supabaseClient.auth.getUser();
 
-  if (!data.user) {
-    // ❌ НЕ ЗАРЕЄСТРОВАНИЙ → НА РЕЄСТРАЦІЮ
-    window.location.href = "auth.html";
+  if (data.user) {
+    window.location.href = "index.html";
   }
 }
 
-checkAuth();
-
 async function login() {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+  const emailValue = document.getElementById("email").value;
+  const passwordValue = document.getElementById("password").value;
 
-  if (!email || !password) {
-    alert("Введи email і пароль");
+  if (!emailValue || !passwordValue) {
+    alert("Заповніть всі поля");
     return;
   }
 
   const { error } = await supabaseClient.auth.signInWithPassword({
-    email,
-    password
+    email: emailValue,
+    password: passwordValue
   });
 
   if (error) {
     const { error: signUpError } = await supabaseClient.auth.signUp({
-      email,
-      password
+      email: emailValue,
+      password: passwordValue
     });
 
     if (signUpError) {
       alert(signUpError.message);
+      return;
     } else {
       alert("Користувача створено");
     }
