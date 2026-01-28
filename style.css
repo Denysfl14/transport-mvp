@@ -1,6 +1,6 @@
 body {
   font-family: Arial, sans-serif;
-  background: #f4f4f4;
+  background: #ffffff;
   padding: 20px;
 }
 
@@ -9,7 +9,7 @@ h1 {
 }
 
 .box {
-  background: white;
+  background: rgb(0, 0, 0);
   padding: 15px;
   margin-bottom: 20px;
   border-radius: 6px;
@@ -22,7 +22,7 @@ input, textarea, button {
 }
 
 button {
-  background: #2e7d32;
+  background: #ff3c00;
   color: white;
   border: none;
   cursor: pointer;
