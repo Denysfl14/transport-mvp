@@ -3,6 +3,17 @@ const supabaseClient = supabase.createClient(
   "PUBLIC_KEY"
 );
 
+async function checkAlreadyLogged() {
+  const { data } = await supabase.auth.getUser();
+
+  if (data.user) {
+    // ✅ ВЖЕ ЗАРЕЄСТРОВАНИЙ → НА САЙТ
+    window.location.href = "index.html";
+  }
+}
+
+checkAlreadyLogged();
+
 async function login() {
   const email = email.value;
   const password = password.value;
@@ -15,5 +26,5 @@ async function login() {
     await supabaseClient.auth.signUp({ email, password });
   }
 
-  location.href = "index.html";
+  window.location.href = "index.html";
 }

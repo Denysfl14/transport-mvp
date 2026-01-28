@@ -11,6 +11,17 @@ const supabaseClient = window.supabase.createClient(
 let orders = [];
 
 // ===== AUTH =====
+async function checkAuth() {
+  const { data } = await supabaseClient.auth.getUser();
+
+  if (!data.user) {
+    // ❌ НЕ ЗАРЕЄСТРОВАНИЙ → НА РЕЄСТРАЦІЮ
+    window.location.href = "auth.html";
+  }
+}
+
+checkAuth();
+
 async function login() {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
@@ -38,7 +49,14 @@ async function login() {
     }
   } else {
     alert("Успішний вхід");
+    const email = document.getElementById("email").value = "";
+    const password = document.getElementById("password").value = "";
   }
+}
+
+async function logout() {
+  await supabaseClient.auth.signOut();
+  window.location.href = "auth.html";
 }
 
 // ===== ORDERS =====
@@ -53,7 +71,7 @@ async function createOrder() {
 
   // ✅ перевірка ПЕРЕД збереженням
   if (!order.from_city || !order.desc || !order.contact) {
-    alert("Заповни обовʼязкові поля");
+    alert("Заповніть обовʼязкові поля");
     return;
   }
 

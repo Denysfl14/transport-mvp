@@ -10,13 +10,6 @@
   <h1>🚚 Біржа перевезень</h1>
 
   <div class="box">
-    <h2>Вхід / Реєстрація</h2>
-    <input id="email" placeholder="Email">
-    <input id="password" type="password" placeholder="Пароль">
-    <button onclick="login()">Увійти / Зареєструватись</button>
-  </div>
-
-  <div class="box">
     <h2>Створити замовлення</h2>
     <input id="from" placeholder="Місто загрузки *" required>
     <input id="to" placeholder="Місто вигрузки">
@@ -29,6 +22,8 @@
     <h2>Доступні замовлення</h2>
     <div id="orders"></div>
   </div>
+
+  <button onclick="logout()">Вийти</button>
 
   <!-- ❗ ТІЛЬКИ ЦІ ДВА SCRIPT -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
