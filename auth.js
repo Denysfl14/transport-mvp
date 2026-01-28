@@ -1,13 +1,13 @@
-const supabaseClient = supabase.createClient(
+const supabaseClient = window.supabase.createClient(
   "https://xddxlddpvjphoirwnkrg.supabase.co",
-  "PUBLIC_KEY"
+  "ТВІЙ_PUBLIC_KEY"
 );
 
+// якщо вже залогінений — не показуємо auth.html
 async function checkAlreadyLogged() {
-  const { data } = await supabase.auth.getUser();
+  const { data } = await supabaseClient.auth.getUser();
 
   if (data.user) {
-    // ✅ ВЖЕ ЗАРЕЄСТРОВАНИЙ → НА САЙТ
     window.location.href = "index.html";
   }
 }
@@ -15,15 +15,29 @@ async function checkAlreadyLogged() {
 checkAlreadyLogged();
 
 async function login() {
-  const email = email.value;
-  const password = password.value;
+  const emailValue = document.getElementById("email").value;
+  const passwordValue = document.getElementById("password").value;
+
+  if (!emailValue || !passwordValue) {
+    alert("Введи email і пароль");
+    return;
+  }
 
   const { error } = await supabaseClient.auth.signInWithPassword({
-    email, password
+    email: emailValue,
+    password: passwordValue
   });
 
   if (error) {
-    await supabaseClient.auth.signUp({ email, password });
+    const { error: signUpError } = await supabaseClient.auth.signUp({
+      email: emailValue,
+      password: passwordValue
+    });
+
+    if (signUpError) {
+      alert(signUpError.message);
+      return;
+    }
   }
 
   window.location.href = "index.html";
