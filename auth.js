@@ -1,6 +1,6 @@
 const supabaseClient = window.supabase.createClient(
   "https://xddxlddpvjphoirwnkrg.supabase.co",
-  "ТВІЙ_PUBLIC_KEY"
+  "sb_publishable_hubeFSd5lasx_XEqe9-xhA_Sj2WI_Ie"
 );
 
 // якщо вже залогінений — не показуємо auth.html
